@@ -1,7 +1,8 @@
-import { state, loadRecipe, loadSearchResults } from './src/js/model.js'
+import { state, loadRecipe, loadSearchResults, getSearchResultsPage } from './src/js/model.js'
 import RecipeView from "./src/js/views/recipeView.js";
 import SearchView from "./src/js/views/searchView.js";
 import ResultsView from "./src/js/views/resultsView.js";
+import PaginationView from "./src/js/views/paginationView.js";
 
 
 // https://forkify-api.herokuapp.com/v2
@@ -30,23 +31,29 @@ const controlRecipes = async function () {
 
 const controlSearchResults = async function () {
   try {
-    ResultsView.renderSpinner()
-
     const query = SearchView.getQuery()
     if (!query) return
 
+    ResultsView.renderSpinner()
     await loadSearchResults(query)
 
-    ResultsView.render(state.search.results)
+    ResultsView.render(getSearchResultsPage())
+    PaginationView.render(state.search)
   } catch (err) {
     console.error(err)
   }
+}
+
+const controlPagination = function (goToPage) {
+  ResultsView.render(getSearchResultsPage(goToPage))
+  PaginationView.render(state.search)
 }
 
 
 const init = () => {
   RecipeView.addHandlerRender(controlRecipes)
   SearchView.addHandlerSearch(controlSearchResults)
+  PaginationView.addHandlerClick(controlPagination)
 }
 
 init()
