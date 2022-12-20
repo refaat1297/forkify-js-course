@@ -1,4 +1,4 @@
-import { state, loadRecipe, loadSearchResults, getSearchResultsPage } from './src/js/model.js'
+import { state, loadRecipe, loadSearchResults, getSearchResultsPage, updateServings } from './src/js/model.js'
 import RecipeView from "./src/js/views/recipeView.js";
 import SearchView from "./src/js/views/searchView.js";
 import ResultsView from "./src/js/views/resultsView.js";
@@ -50,8 +50,17 @@ const controlPagination = function (goToPage) {
 }
 
 
+const controlServings = function (newServings) {
+  // update recipe servings
+  updateServings(newServings)
+
+  // update the recipe view
+  RecipeView.render(state.recipe)
+}
+
 const init = () => {
   RecipeView.addHandlerRender(controlRecipes)
+  RecipeView.addHandlerUpdateServings(controlServings)
   SearchView.addHandlerSearch(controlSearchResults)
   PaginationView.addHandlerClick(controlPagination)
 }
