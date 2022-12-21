@@ -16,6 +16,8 @@ const controlRecipes = async function () {
     const id = window.location.hash.slice(1)
     if (!id) return
 
+    ResultsView.update(getSearchResultsPage())
+
     RecipeView.renderSpinner()
 
     // 1) Loading recipe
@@ -55,7 +57,7 @@ const controlServings = function (newServings) {
   updateServings(newServings)
 
   // update the recipe view
-  RecipeView.render(state.recipe)
+  RecipeView.update(state.recipe)
 }
 
 const init = () => {
