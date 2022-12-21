@@ -4,12 +4,7 @@ import View from "./View.js";
 class PreviewView extends View {
   _parentElement = '';
 
-  _generateMarkup (result) {
-    // <div className="preview__user-generated">
-    //   <svg>
-    //     <use href="${icons}#icon-user"></use>
-    //   </svg>
-    // </div>
+  _generateMarkup () {
     const id = window.location.hash.slice(1)
     return `
       <li class="preview">
@@ -17,9 +12,15 @@ class PreviewView extends View {
           <figure class="preview__fig">
             <img src="${this._data.image}" alt="${this._data.title}" loading="lazy" />
           </figure>
+         
           <div class="preview__data">
             <h4 class="preview__title">${this._data.title}</h4>
             <p class="preview__publisher">${this._data.publisher}</p>
+            <div class="preview__user-generated ${this._data.key ? '' : 'hidden'}">
+              <svg>
+                <use href="${icons}#icon-user"></use>
+              </svg>
+            </div>
           </div>
         </a>
       </li>
